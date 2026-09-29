@@ -1,0 +1,20 @@
+{
+  "name": "dilshan-md-pair",
+  "version": "1.0.0",
+  "description": "DILSHAN-MD Session ID / Pair Code / QR generator web service",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.9",
+    "@hapi/boom": "^10.0.1",
+    "express": "^4.19.2",
+    "qrcode": "^1.5.4",
+    "pino": "^8.21.0",
+    "fs-extra": "^11.2.0"
+  }
+}
