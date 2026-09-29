@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DILSHAN-MD</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #e2e8f0;
+    overflow-x: hidden;
+  }
+  body {
+    min-height: 100vh;
+    background-image:
+      radial-gradient(1px 1px at 20px 30px, #fff, transparent),
+      radial-gradient(1px 1px at 90px 120px, #fff, transparent),
+      radial-gradient(1px 1px at 150px 60px, #fff, transparent),
+      radial-gradient(2px 2px at 220px 200px, #fff, transparent),
+      radial-gradient(1px 1px at 280px 90px, #fff, transparent),
+      radial-gradient(1px 1px at 40px 250px, #fff, transparent),
+      radial-gradient(2px 2px at 320px 40px, #fff, transparent),
+      radial-gradient(1px 1px at 180px 300px, #fff, transparent),
+      radial-gradient(1px 1px at 350px 260px, #fff, transparent),
+      radial-gradient(1px 1px at 110px 350px, #fff, transparent);
+    background-repeat: repeat;
+    background-size: 400px 400px;
+    animation: drift 60s linear infinite;
+  }
+  @keyframes drift { from { background-position: 0 0; } to { background-position: -400px 400px; } }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: center;
+    padding: 18px 16px 10px; position: sticky; top: 0; z-index: 10;
+  }
+  .brand-pill {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(20, 20, 30, 0.85);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px; padding: 10px 18px; backdrop-filter: blur(8px);
+  }
+  .brand-name {
+    font-weight: 800; font-size: 18px;
+    background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .badge {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 999px;
+    border: 1px solid transparent; cursor: pointer; user-select: none;
+    background: rgba(34,197,94,0.12); color: #4ade80;
+  }
+  .badge.active { background: rgba(34,197,94,0.18); color: #22c55e; border-color: rgba(34,197,94,0.4); }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ===== PAIR view ===== */
+  .stage { display: flex; align-items: center; justify-content: center; min-height: 78vh; padding: 20px; }
+  .card {
+    width: 100%; max-width: 400px;
+    background: rgba(24, 24, 32, 0.85);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px; padding: 34px 28px; text-align: center;
+    backdrop-filter: blur(10px); box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+  .card h1 { font-size: 26px; font-weight: 800; color: #ef4444; margin-bottom: 10px; }
+  .card p.sub { color: #94a3b8; font-size: 14px; margin-bottom: 22px; line-height: 1.4; }
+  input[type=text] {
+    width: 100%; padding: 14px 16px; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: #0b0b12; color: #fff; font-size: 15px; text-align: center; letter-spacing: 0.5px;
+  }
+  input[type=text]::placeholder { color: #64748b; }
+  .hint { font-size: 12px; color: #64748b; margin: 8px 0 20px; }
+  button.primary {
+    width: 100%; padding: 14px; border: none; border-radius: 999px;
+    background: linear-gradient(90deg, #16a34a, #22c55e);
+    color: #06210f; font-weight: 800; font-size: 15px; cursor: pointer;
+    box-shadow: 0 10px 30px rgba(34,197,94,0.25);
+  }
+  button.primary:disabled { opacity: 0.6; cursor: not-allowed; }
+  .switch-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 20px; padding: 12px 24px; border-radius: 999px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    color: #cbd5e1; font-weight: 600; font-size: 14px; cursor: pointer;
+  }
+  .switch-link:hover { background: rgba(255,255,255,0.07); }
+  .result { margin-top: 22px; }
+  .code {
+    font-size: 28px; letter-spacing: 4px; font-weight: 800; color: #22c55e;
+    background: #0b0b12; padding: 16px; border-radius: 12px; border: 1px solid rgba(34,197,94,0.3);
+  }
+  img.qr { width: 220px; height: 220px; border-radius: 12px; background: #fff; padding: 10px; }
+  textarea {
+    width: 100%; height: 100px; margin-top: 14px; background: #0b0b12; color: #22c55e;
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px;
+    font-size: 12px; resize: none;
+  }
+  .warn { font-size: 12px; color: #f87171; margin-top: 10px; line-height: 1.4; }
+  .status { font-size: 13px; color: #94a3b8; margin-top: 16px; }
+  .hidden { display: none !important; }
+
+  /* ===== BUY view ===== */
+  .hero { text-align: center; padding: 40px 20px 10px; }
+  .hero h1 {
+    font-size: 34px; font-weight: 800; line-height: 1.15;
+    background: linear-gradient(90deg, #f97316, #ef4444);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p { color: #94a3b8; margin-top: 12px; font-size: 14px; max-width: 480px; margin-inline: auto; }
+  .plans { max-width: 460px; margin: 0 auto; padding: 24px 16px 10px; display: flex; flex-direction: column; gap: 22px; }
+  .plan {
+    background: rgba(24,24,32,0.85); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 18px; padding: 26px 22px; text-align: center; backdrop-filter: blur(8px);
+  }
+  .plan h2 { font-size: 20px; font-weight: 700; margin-bottom: 14px; }
+  .price { font-size: 15px; color: #94a3b8; }
+  .price b { font-size: 40px; color: #fff; margin-left: 6px; }
+  .validity { color: #22c55e; font-weight: 600; font-size: 14px; margin-top: 6px; }
+  hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 18px 0; }
+  .features { list-style: none; text-align: left; display: flex; flex-direction: column; gap: 12px; }
+  .features li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: #cbd5e1; }
+  .details-link { display: block; margin: 18px 0 14px; font-size: 13px; color: #4ade80; text-decoration: underline; }
+  select {
+    width: 100%; padding: 12px 14px; border-radius: 10px; margin-bottom: 16px;
+    background: #0b0b12; color: #fff; border: 1px solid rgba(255,255,255,0.1); font-size: 14px;
+  }
+  .buy-btn {
+    display: block; width: 100%; padding: 14px; border: none; border-radius: 999px;
+    font-weight: 800; font-size: 15px; cursor: pointer; text-decoration: none; color: #fff; text-align: center;
+  }
+  .buy-basic { background: linear-gradient(90deg, #3b82f6, #22d3ee); color: #06210f; }
+  .buy-standard { background: linear-gradient(90deg, #16a34a, #22c55e); color: #06210f; }
+  .buy-premium { background: linear-gradient(90deg, #a855f7, #6366f1); }
+  .buy-custom { background: linear-gradient(90deg, #16a34a, #22c55e); color: #06210f; }
+  .terms-note { font-size: 12px; color: #64748b; margin-top: 10px; }
+  .terms-note a { color: #4ade80; }
+  .payment-box {
+    max-width: 460px; margin: 30px auto 50px; padding: 26px 22px;
+    background: rgba(24,24,32,0.85); border: 1px solid rgba(255,255,255,0.06); border-radius: 18px;
+  }
+  .payment-box h3 { display: flex; align-items: center; gap: 10px; font-size: 18px; margin-bottom: 10px; }
+  .payment-box > p { color: #94a3b8; font-size: 13px; line-height: 1.5; margin-bottom: 18px; }
+  .method {
+    background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.25);
+    border-radius: 12px; padding: 16px;
+  }
+  .method b { display: block; margin-bottom: 6px; font-size: 14px; }
+  .method p { color: #94a3b8; font-size: 13px; line-height: 1.4; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand-pill">
+    <img src="https://raw.githubusercontent.com/ThanujaDilshan-LK/QUEENHANSI-l-Md-web/c8f9914d90feeba7118e056d45df8ae528719785/assets/file_00000000c9fc8211b757193ae356dd0b.png" alt="DILSHAN-MD" style="width:26px;height:26px;border-radius:50%;object-fit:cover;" />
+    <span class="brand-name">DILSHAN-MD</span>
+    <span class="badge" id="buyBadge" onclick="showView('buy')">💳 BUY</span>
+    <span class="badge active" id="pairBadge" onclick="showView('pair')">⊞ PAIR</span>
+  </div>
+</div>
+
+<!-- ================= PAIR VIEW ================= -->
+<div class="view active" id="pairView">
+  <div class="stage">
+    <div class="card">
+
+      <div id="pairPanel">
+        <h1>Get Pair Code</h1>
+        <p class="sub">Enter your WhatsApp number to get a pair code.</p>
+        <input id="numberInput" type="text" placeholder="94701979812" />
+        <div class="hint">Enter the number without spaces or the '+' symbol.</div>
+        <button class="primary" id="pairBtn" onclick="startPair()">Get Code</button>
+        <div class="switch-link" onclick="switchPairTab('qr')">⊞ Link with QR code</div>
+      </div>
+
+      <div id="qrPanel" class="hidden">
+        <h1>Scan QR Code</h1>
+        <p class="sub">Open WhatsApp → Linked Devices → Link a Device, then scan.</p>
+        <button class="primary" id="qrBtn" onclick="startQr()">Generate QR</button>
+        <div class="switch-link" onclick="switchPairTab('pair')">🔢 Link with Pair Code</div>
+      </div>
+
+      <div class="result" id="result"></div>
+      <div class="status" id="status"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= BUY VIEW ================= -->
+<div class="view" id="buyView">
+  <div class="hero">
+    <h1>Managed Deployment Plans</h1>
+    <p>No platform? No credit card? We handle the deployment and hosting for you. Choose a plan that fits your needs.</p>
+  </div>
+
+  <div class="plans">
+
+    <div class="plan">
+      <h2>Basic Plan</h2>
+      <div class="price">LKR<b>500</b></div>
+      <div class="validity">Validity - 1 Month</div>
+      <hr>
+      <ul class="features">
+        <li>🤖 DILSHAN-MD Bot with 24/7 operation</li>
+        <li>⬇️ Up to 2GB file downloads</li>
+        <li>🔓 Full access to bot features</li>
+        <li>🎨 Fully Customizable</li>
+      </ul>
+      <a class="details-link" href="#">Read all details of the bot</a>
+      <a class="buy-btn buy-basic" href="#" onclick="buy('Basic Plan', 'LKR 500 / 1 Month'); return false;">Buy Basic Plan</a>
+      <div class="terms-note">Please read our <a href="terms.html">terms</a> before purchasing.</div>
+    </div>
+
+    <div class="plan">
+      <h2>Standard Plan</h2>
+      <div class="price">LKR<b>1200</b></div>
+      <div class="validity">Validity - 3 Months</div>
+      <hr>
+      <ul class="features">
+        <li>🤖 DILSHAN-MD Bot with 24/7 operation</li>
+        <li>⬇️ Up to 2GB file downloads</li>
+        <li>🔓 Full access to bot features</li>
+        <li>🎨 Fully Customizable</li>
+      </ul>
+      <a class="details-link" href="#">Read all details of the bot</a>
+      <a class="buy-btn buy-standard" href="#" onclick="buy('Standard Plan', 'LKR 1200 / 3 Months'); return false;">Buy Standard Plan</a>
+      <div class="terms-note">Please read our <a href="terms.html">terms</a> before purchasing.</div>
+    </div>
+
+    <div class="plan">
+      <h2>Premium Plan</h2>
+      <div class="price">LKR<b>1800</b></div>
+      <div class="validity">Validity - 5 Months</div>
+      <hr>
+      <ul class="features">
+        <li>🤖 DILSHAN-MD Bot with 24/7 operation</li>
+        <li>⬇️ Up to 2GB file downloads</li>
+        <li>🔓 Full access to bot features</li>
+        <li>🎨 Fully Customizable</li>
+      </ul>
+      <a class="details-link" href="#">Read all details of the bot</a>
+      <a class="buy-btn buy-premium" href="#" onclick="buy('Premium Plan', 'LKR 1800 / 5 Months'); return false;">Buy Premium Plan</a>
+      <div class="terms-note">Please read our <a href="terms.html">terms</a> before purchasing.</div>
+    </div>
+
+    <div class="plan">
+      <h2>Custom Plan</h2>
+      <p style="color:#94a3b8;font-size:13px;margin-bottom:8px;">Select Validity:</p>
+      <select id="customValidity" onchange="updateCustom()">
+        <option value="1|500">1 Month</option>
+        <option value="3|1200">3 Months</option>
+        <option value="5|1800">5 Months</option>
+      </select>
+      <div class="price">LKR<b id="customPrice">500</b></div>
+      <div class="validity" id="customValidityLabel">Validity - 1 Month</div>
+      <hr>
+      <ul class="features">
+        <li>🤖 DILSHAN-MD Bot with 24/7 operation</li>
+        <li>⬇️ Up to 2GB file downloads</li>
+        <li>🔓 Full access to bot features</li>
+        <li>🎨 Fully Customizable</li>
+      </ul>
+      <a class="details-link" href="#">Read all details of the bot</a>
+      <a class="buy-btn buy-custom" href="#" onclick="buyCustom(); return false;">Buy Custom Plan</a>
+      <div class="terms-note">Please read our <a href="terms.html">terms</a> before purchasing.</div>
+    </div>
+
+  </div>
+
+  <div class="payment-box">
+    <h3>🏦 Payment Methods</h3>
+    <p>We accept multiple payment methods. After payment, send the receipt to our WhatsApp number for verification.</p>
+    <div class="method">
+      <b>🏛️ Bank Transfer</b>
+      <p>Transfer the exact amount to our Commercial Bank of Ceylon PLC account and share the transaction reference.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Your WhatsApp support/business number (country code, no + or spaces)
+  const WHATSAPP_NUMBER = '94701979812';
+
+  function showView(name) {
+    document.getElementById('pairView').classList.toggle('active', name === 'pair');
+    document.getElementById('buyView').classList.toggle('active', name === 'buy');
+    document.getElementById('pairBadge').classList.toggle('active', name === 'pair');
+    document.getElementById('buyBadge').classList.toggle('active', name === 'buy');
+  }
+
+  /* ---- PAIR logic ---- */
+  let pollTimer = null;
+
+  function switchPairTab(tab) {
+    document.getElementById('pairPanel').classList.toggle('hidden', tab !== 'pair');
+    document.getElementById('qrPanel').classList.toggle('hidden', tab !== 'qr');
+    document.getElementById('result').innerHTML = '';
+    document.getElementById('status').innerText = '';
+    if (pollTimer) clearInterval(pollTimer);
+  }
+
+  async function startPair() {
+    const number = document.getElementById('numberInput').value.trim();
+    if (!number) { alert('Enter your WhatsApp number first.'); return; }
+    const btn = document.getElementById('pairBtn');
+    btn.disabled = true;
+    document.getElementById('status').innerText = 'Starting…';
+
+    const res = await fetch('/api/pair/start', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ number })
+    });
+    const data = await res.json();
+    btn.disabled = false;
+    if (data.error) { document.getElementById('status').innerText = data.error; return; }
+    poll(data.id);
+  }
+
+  async function startQr() {
+    const btn = document.getElementById('qrBtn');
+    btn.disabled = true;
+    document.getElementById('status').innerText = 'Starting…';
+
+    const res = await fetch('/api/qr/start', { method: 'POST' });
+    const data = await res.json();
+    btn.disabled = false;
+    if (data.error) { document.getElementById('status').innerText = data.error; return; }
+    poll(data.id);
+  }
+
+  function poll(id) {
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(async () => {
+      const res = await fetch('/api/status/' + id);
+      const data = await res.json();
+      render(data);
+      if (data.status === 'connected' || data.status === 'failed' || data.status === 'expired') {
+        clearInterval(pollTimer);
+      }
+    }, 2000);
+  }
+
+  function render(data) {
+    const result = document.getElementById('result');
+    const status = document.getElementById('status');
+
+    if (data.status === 'code' && data.code) {
+      result.innerHTML = `<div class="code">${data.code}</div>`;
+      status.innerText = 'Enter this code in WhatsApp: Settings → Linked Devices → Link with phone number';
+    } else if (data.status === 'qr' && data.qr) {
+      result.innerHTML = `<img class="qr" src="${data.qr}" />`;
+      status.innerText = 'Scan with WhatsApp: Settings → Linked Devices → Link a Device';
+    } else if (data.status === 'connected' && data.sessionId) {
+      result.innerHTML = `
+        <div style="color:#22c55e;font-weight:700;">✅ Linked successfully!</div>
+        <textarea readonly onclick="this.select()">${data.sessionId}</textarea>
+        <div class="warn">⚠️ Keep this private. Anyone with this Session ID can access your WhatsApp account. Paste it into your bot's SESSION_ID environment variable.</div>
+      `;
+      status.innerText = '';
+    } else if (data.status === 'failed') {
+      status.innerText = '❌ ' + (data.error || 'Something went wrong. Please try again.');
+    } else {
+      status.innerText = 'Waiting…';
+    }
+  }
+
+  /* ---- BUY logic ---- */
+  function buy(planName, priceLabel) {
+    const msg = `Hi! I'd like to buy the *${planName}* (${priceLabel}) for DILSHAN-MD. Please send me the payment details.`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
+
+  function updateCustom() {
+    const [months, price] = document.getElementById('customValidity').value.split('|');
+    document.getElementById('customPrice').innerText = price;
+    document.getElementById('customValidityLabel').innerText = `Validity - ${months} Month${months > 1 ? 's' : ''}`;
+  }
+
+  function buyCustom() {
+    const [months, price] = document.getElementById('customValidity').value.split('|');
+    buy('Custom Plan', `LKR ${price} / ${months} Month${months > 1 ? 's' : ''}`);
+  }
+</script>
+</body>
+</html>

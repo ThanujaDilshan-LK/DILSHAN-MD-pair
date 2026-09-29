@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DILSHAN-MD — Bot Details</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #e2e8f0;
+  }
+  body {
+    min-height: 100vh;
+    background-image:
+      radial-gradient(1px 1px at 20px 30px, #fff, transparent),
+      radial-gradient(1px 1px at 90px 120px, #fff, transparent),
+      radial-gradient(1px 1px at 150px 60px, #fff, transparent),
+      radial-gradient(2px 2px at 220px 200px, #fff, transparent),
+      radial-gradient(1px 1px at 280px 90px, #fff, transparent),
+      radial-gradient(1px 1px at 40px 250px, #fff, transparent),
+      radial-gradient(2px 2px at 320px 40px, #fff, transparent),
+      radial-gradient(1px 1px at 180px 300px, #fff, transparent),
+      radial-gradient(1px 1px at 350px 260px, #fff, transparent),
+      radial-gradient(1px 1px at 110px 350px, #fff, transparent);
+    background-repeat: repeat;
+    background-size: 400px 400px;
+  }
+  .topbar { display: flex; align-items: center; justify-content: center; padding: 18px 16px 10px; }
+  .brand-pill {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(20, 20, 30, 0.85);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px; padding: 10px 18px; backdrop-filter: blur(8px);
+  }
+  .brand-pill img { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; }
+  .brand-name {
+    font-weight: 800; font-size: 18px;
+    background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .badge {
+    font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 999px;
+    text-decoration: none; background: rgba(34,197,94,0.12); color: #4ade80;
+  }
+
+  .wrap { max-width: 640px; margin: 0 auto; padding: 30px 20px 60px; }
+  .hero { text-align: center; margin-bottom: 30px; }
+  .hero h1 {
+    font-size: 30px; font-weight: 800;
+    background: linear-gradient(90deg, #f97316, #ef4444);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p { color: #94a3b8; margin-top: 10px; font-size: 14px; line-height: 1.5; }
+
+  .section {
+    background: rgba(24,24,32,0.85); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 18px; padding: 24px 22px; margin-bottom: 20px; backdrop-filter: blur(8px);
+  }
+  .section h2 { font-size: 18px; margin-bottom: 14px; color: #fff; }
+  .section h2 .ic { margin-right: 8px; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat { background: #0b0b12; border-radius: 10px; padding: 12px; text-align: center; }
+  .stat b { display: block; font-size: 18px; color: #22c55e; }
+  .stat span { font-size: 11px; color: #94a3b8; }
+
+  ul.feat { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  ul.feat li { font-size: 14px; color: #cbd5e1; display: flex; gap: 10px; align-items: flex-start; }
+
+  .cmd-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .cmd-table th { text-align: left; color: #94a3b8; font-weight: 600; padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .cmd-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .cmd-table code { color: #22c55e; background: #0b0b12; padding: 2px 6px; border-radius: 5px; }
+
+  .back-link {
+    display: inline-block; margin-top: 10px; color: #4ade80; text-decoration: none; font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand-pill">
+    <img src="https://raw.githubusercontent.com/ThanujaDilshan-LK/QUEENHANSI-l-Md-web/c8f9914d90feeba7118e056d45df8ae528719785/assets/file_00000000c9fc8211b757193ae356dd0b.png" alt="DILSHAN-MD" />
+    <span class="brand-name">DILSHAN-MD</span>
+    <a class="badge" href="index.html">← Back</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <h1>DILSHAN-MD Bot — Full Details</h1>
+    <p>A self-hosted WhatsApp automation bot built on the Baileys multi-device API. Runs 24/7 on your own deployment, fully customizable, no third-party control over your account.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="ic">📊</span>At a Glance</h2>
+    <div class="grid">
+      <div class="stat"><b>24/7</b><span>Uptime (managed hosting)</span></div>
+      <div class="stat"><b>2GB</b><span>Max file download size</span></div>
+      <div class="stat"><b>Node ≥18</b><span>Runtime</span></div>
+      <div class="stat"><b>Baileys v7</b><span>WhatsApp engine</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="ic">⚙️</span>Core Features</h2>
+    <ul class="feat">
+      <li>🛡️ <div><b>Group Management</b> — tag-all, ban, clear, admin-only command mode</div></li>
+      <li>🔗 <div><b>Anti-link / Anti-badword</b> — auto-moderation for non-admins</div></li>
+      <li>🚫 <div><b>Anti-tag / Anti-call / Anti-delete</b> — extra group protection</div></li>
+      <li>🤖 <div><b>AI Chatbot mode</b> — conversational persona, on-demand or always-on</div></li>
+      <li>🎨 <div><b>Sticker tools</b> — image-to-sticker, animated text-to-sticker (attp)</div></li>
+      <li>🎙️ <div><b>Text-to-voice</b> — turns any text into a spoken WhatsApp voice note</div></li>
+      <li>🎮 <div><b>Fun commands</b> — Tic-Tac-Toe, dare, truth, compliment, anime, character</div></li>
+      <li>🎬 <div><b>Movie/video/song downloader</b> — auto-switches to a cloud download link for files over WhatsApp's 2GB cap</div></li>
+      <li>📶 <div><b>Presence automation</b> — auto-read, auto-typing, auto-status view</div></li>
+      <li>👥 <div><b>Multi-owner support</b> — <code>.sudo</code> to grant owner-level access to trusted numbers</div></li>
+      <li>🧩 <div><b>Custom commands</b> — add your own trigger/response pairs, no coding needed</div></li>
+      <li>📢 <div><b>Channel posting & auto-announce</b> — post to your WhatsApp channel, or auto-notify your groups when the bot updates</div></li>
+      <li>🛠️ <div><b>Live settings</b> — change bot name, footer, and mode from chat with <code>.setup</code></div></li>
+      <li>⏳ <div><b>Managed plan expiry</b> — hosted plans automatically stop when a subscription ends, with a renewal reminder beforehand</div></li>
+      <li>🔐 <div><b>Session persistence</b> — SESSION_ID env-var support survives redeploys</div></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="ic">💻</span>Popular Commands</h2>
+    <table class="cmd-table">
+      <tr><th>Command</th><th>What it does</th></tr>
+      <tr><td><code>.tagall</code></td><td>Tag every group member</td></tr>
+      <tr><td><code>.antilink</code></td><td>Toggle link auto-removal</td></tr>
+      <tr><td><code>.sticker</code></td><td>Convert image/video to sticker</td></tr>
+      <tr><td><code>.voice</code></td><td>Text to voice note</td></tr>
+      <tr><td><code>.play</code> / <code>.song</code> / <code>.video</code></td><td>Download music & movies</td></tr>
+      <tr><td><code>.chatbot</code></td><td>Toggle AI chat mode</td></tr>
+      <tr><td><code>.alive</code></td><td>Check bot status</td></tr>
+      <tr><td><code>.ban</code> / <code>.clear</code></td><td>Group moderation (admin)</td></tr>
+      <tr><td><code>.sudo</code></td><td>Add/remove bot owners</td></tr>
+      <tr><td><code>.addcmd</code></td><td>Create your own custom command</td></tr>
+      <tr><td><code>.channelpost</code></td><td>Post a message to your channel</td></tr>
+      <tr><td><code>.setup</code></td><td>Guided bot configuration</td></tr>
+      <tr><td><code>.changelog</code></td><td>See what's new in the latest update</td></tr>
+      <tr><td><code>.menu</code></td><td>Full command list</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="ic">🚀</span>How Deployment Works</h2>
+    <ul class="feat">
+      <li>1️⃣ You buy a plan and link your WhatsApp number via the Pair/QR tab.</li>
+      <li>2️⃣ We deploy your own dedicated bot instance — not a shared/multi-tenant bot.</li>
+      <li>3️⃣ Your plan's expiry date is set automatically based on what you bought (1/3/5 months).</li>
+      <li>4️⃣ We'll remind you a few days before your plan expires so you can renew without downtime.</li>
+      <li>5️⃣ If a plan lapses, the bot pauses automatically — renew anytime to bring it back online.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="ic">☁️</span>Hosting Infrastructure</h2>
+    <ul class="feat">
+      <li>🌐 Deployed on production-grade cloud infrastructure with automatic restarts if the process ever drops.</li>
+      <li>💾 Persistent session storage — no re-scanning QR codes after routine restarts.</li>
+      <li>📈 Infrastructure sized to handle multiple bots reliably, so your bot isn't competing for resources.</li>
+      <li>🔒 Your WhatsApp session stays private — never shared with other customers' bots.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="ic">🏗️</span>Good to Know</h2>
+    <ul class="feat">
+      <li>🛠️ Fully customizable — commands, replies, and behavior can be changed anytime.</li>
+      <li>📦 Files up to WhatsApp's 2GB limit send directly; anything larger auto-delivers as a download link instead.</li>
+      <li>⚠️ Uses WhatsApp's unofficial Web API — carries a ban/rate-limit risk like any unofficial automation tool. Use responsibly, no spam or bulk messaging.</li>
+    </ul>
+  </div>
+
+  <a class="back-link" href="index.html">← Back to plans</a>
+</div>
+
+</body>
+</html>
